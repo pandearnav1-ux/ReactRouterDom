@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Client Router Fix</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@remix-run/router@1/dist/router.umd.js"></script>
+    <script src="https://unpkg.com/react-router@6/dist/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6/dist/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body 
+        {
+            background-color:#f1f5f9;
+            height: 100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:16px;
+            font-family: sans-serif;
+        }
+        .gradientWrapper 
+        {
+            width: 100%;
+            max-width: 32rem;
+            background:linear-gradient(45deg, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            padding:4px; 
+            border-radius:1.25rem;
+            box-sizing:border-box;
+            box-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+        .mainBox 
+        {
+            width:100%;
+            background-color:#ffffff;
+            border-radius:1.1rem;
+            padding:32px;
+            box-sizing:border-box;
+        }
+        .navBar 
+        {
+            display:flex;
+            justify-content:center;
+            gap:24px;
+            margin-bottom:32px;
+            padding-bottom:16px;
+            border-bottom:1px solid #e2e8f0;
+        }
+        .navLink 
+        {
+            font-size:1rem;
+            font-weight:600;
+            color:#64748b;
+            text-decoration:none;
+            transition:color 0.2s;
+        }
+        .navLink:hover 
+        {
+            color: #d6249f;
+        }
+        .activeLink 
+        {
+            color:#fd5949;
+            border-bottom:2px solid #fd5949;
+            padding-bottom:4px;
+        }
+        .contentArea 
+        {
+            text-align:center;
+            min-height:150px;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+        }
+        .title 
+        {
+            font-size:1.75rem;
+            font-weight:700;
+            color:#0f172a;
+            margin:0 0 12px 0;
+        }
+        .text 
+        {
+            font-size:1rem;
+            color:#475569;
+            margin:0;
+        }
+        .actionBtn 
+        {
+            margin-top:16px;
+            padding:10px 20px;
+            background-color:#0f172a;
+            color:#ffffff;
+            border:none;
+            border-radius:0.5rem;
+            font-weight:600;
+            cursor:pointer;
+            transition:opacity 0.2s;
+        }
+        .actionBtn:hover 
+        {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const{HashRouter,Routes,Route,Link,useLocation,useNavigate}=ReactRouterDOM;
+        function Home() 
+        {
+            return (
+                <div className="contentArea">
+                    <h2 className="title">Home Page</h2>
+                    <p className="text">Welcome to our client side routed application. Shoots instantly like a tracer bullet!!!</p>
+                </div>
+            );
+        }
+        function About() 
+        {
+            return (
+                <div className="contentArea">
+                    <h2 className="title">About Us</h2>
+                    <p className="text">This page uses react router  to manage history.</p>
+                </div>
+            );
+        }
+
+        function Contact() 
+        {
+            const navigate=useNavigate();
+            return (
+                <div className="contentArea">
+                    <h2 className="title">Contact Page</h2>
+                    <p className="text">Connect via email with us!!!</p>
+                    <button onClick={()=>navigate('/')} className="actionBtn">
+                        Go To Home
+                    </button>
+                </div>
+            );
+        }
+
+        function App() 
+        {
+            const location=useLocation();
+            const getLinkStyle=(path)=>location.pathname===path?"navLink activeLink":"navLink";
+            return (
+                <div className="gradientWrapper">
+                    <div className="mainBox">
+                        <nav className="navBar">
+                            <Link to="/" className={getLinkStyle('/')}>Home</Link>
+                            <Link to="/about" className={getLinkStyle('/about')}>About</Link>
+                            <Link to="/contact" className={getLinkStyle('/contact')}>Contact</Link>
+                        </nav>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/contact" element={<Contact />} />
+                        </Routes>
+                    </div>
+                </div>
+            );
+        }
+        const root=ReactDOM.createRoot(document.getElementById('root'));
+        root.render(
+            <HashRouter>
+                <App />
+            </HashRouter>
+        );
+    </script>
+</body>
+</html>
