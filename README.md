@@ -1,43 +1,38 @@
-# React Client Router Demo
+# React Client Router & Live Telemetry Demo
 
-A sleek, lightweight Single Page Application (SPA) that demonstrates **client-side routing** using React 18 and React Router DOM v6 entirely inside a single HTML file. 
+A sleek, lightweight Full-Stack Single Page Application (SPA) that demonstrates **client-side routing** using React 18 and React Router DOM v6, combined with a **live Node.js/Express analytics backend** that tracks route telemetry in real time.
 
-This project shows how modern web applications manage navigation dynamically on the client side, bypassing traditional full-page browser refreshes.
+This project showcases how modern web applications manage navigation dynamically on the client side without full-page browser refreshes, while simultaneously feeding user navigation metrics back to a persistent data store.
 
 ---
 
 ## Features
 
-* **Zero Build Tools:** Runs directly in the browser via UMD CDNs—no `npm install`, Webpack, or Vite setup required.
-* **Instant Navigation:** Uses React Router DOM's `HashRouter` to instantly swap components without triggering a page reload.
-* **Dynamic Active Links:** Automatically tracks the current URL path to highlight the active tab in the navigation bar.
-* **Programmatic Routing:** Demonstrates the use of the `useNavigate` hook for action-based redirects (e.g., the "Go To Home" button).
-* **Modern UI:** Wrapped in a clean, responsive card with a vibrant gradient border.
+*   **Zero Build Tools Frontend:** Runs directly in the browser via UMD CDNs—no package installation or bundlers (Webpack/Vite) required for the client layer.
+*   **Instant Client-Side Navigation:** Uses React Router DOM's `<HashRouter>` to instantly swap view components without triggering full browser reloads.
+*   **Dynamic Nav Link Highlighting:** Automatically tracks the current active URL hash fragment path to update the state of the navigation bar.
+*   **Programmatic Redirection:** Demonstrates action-based navigation updates via the native `useNavigate` hook.
+*   **Automated Route Telemetry:** Features a custom React hook lifecycle pattern (`useRouteTelemetry`) that sends non-blocking asynchronous payload tracking reports down to the Express API whenever a route view finishes updating.
+*   **Live Analytics Aggregation:** Backend processes tracking records on the fly and utilizes MongoDB aggregation pipelines to serve dynamic, real-time page-hit statistics back to the UI.
 
 ---
 
 ## Technical Stack
 
-* **React 18** - UI Component framework
-* **React Router DOM v6** - Client-side routing management
-* **Babel Standalone** - In-browser compilation for JSX syntax
+### Frontend Client
+*   **React 18** – UI Component structure & lifecycle hooks
+*   **React Router DOM v6** – Client-side routing management
+*   **Babel Standalone** – In-browser runtime JSX compilation
+
+### Backend API & Database
+*   **Node.js & Express** – REST API routing middleware layer
+*   **MongoDB & Mongoose** – Document-oriented persistent storage & collection aggregation
 
 ---
 
-## How to Run Locally
+## Project Structure
 
-Since this project relies on external CDNs and browser routing APIs, it should be served through a local development server rather than opened as a raw file.
-
-1. Clone this repository or copy the `index.html` file code.
-2. Open the project folder in **Visual Studio Code**.
-3. Install the **Live Server** extension by Ritwick Dey (if you haven't already).
-4. Right-click anywhere inside `index.html` and select **"Open with Live Server"**.
-5. Your default browser will launch the application at `http://127.0.0.1:5500`.
-
----
-
-## Project Structure Explained
-
-* **`<HashRouter>`**: Encloses the application to sync the UI with the URL hash fragment (`/#/about`), which ensures seamless routing on static hosting environments like GitHub Pages.
-* **`<Routes>` & `<Route>`**: Acts like a conditional switch statement, mapping paths like `/about` or `/contact` to their respective components.
-* **`<Link>`**: Replaces standard HTML anchor tags (`<a>`) to intercept clicks and prevent default page refreshes.
+```text
+ReactRouterDom/
+├── index.html            # React frontend (UI Client)
+└── server.js             # Node/Express backend (Analytics API)
